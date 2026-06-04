@@ -24,6 +24,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{vars.AWS_REGION}}
           role-session-name: TerraformPlanSession
           role-skip-session-tagging: true
 
