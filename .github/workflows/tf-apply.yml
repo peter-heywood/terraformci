@@ -1,7 +1,13 @@
 name: Terraform Plan
 
 on:
-  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        description: "AWS Region"
+        required: true
+        default: "eu-west-2"
 
 permissions: write-all
 
