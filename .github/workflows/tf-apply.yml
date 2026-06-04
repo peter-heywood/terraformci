@@ -38,3 +38,28 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outputs == 'failure'
         run: exit 1
+  apply:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{vars.AWS_REGION}}
+          role-session-name: TerraformApplySession
+          role-skip-session-tagging: true
+      - name: Terraform Apply
+        uses: dflook/terraform-apply@v1
+        with:
+          auto_approve: false 
