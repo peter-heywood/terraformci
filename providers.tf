@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "peter-heywood-terraform"
+    bucket = "terraformstate-myprj2
     key    = "state"
     region = "eu-west-2"
   }
